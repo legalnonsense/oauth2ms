@@ -176,8 +176,11 @@ def fetch_token_from_cache(app):
     cache = app['cache']
     cca = build_msal_app(config, cache)
     accounts = cca.get_accounts()
+    print(accounts)
+    print(cca.get_accounts)
     if cca.get_accounts:
         result = cca.acquire_token_silent(config['scopes'], account=accounts[0])
+        print(result)
         return result["access_token"]
     else:
         None
@@ -242,10 +245,10 @@ if app_state is None:
 if app_state is None:
     print("Something went wrong!")
     sys.exit(1)
-
+print(token)
 if token is None:
     token = fetch_token_from_cache(app_state)
-
+print(token)
 if token is not None:
     if cmdline_args.encode_xoauth2:
         print(encode_xoauth2(app_state, token))
