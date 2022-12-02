@@ -65,6 +65,8 @@ def load_config():
     return json.load(open(config_file, 'r'))
 
 def build_msal_app(config, cache = None):
+    print("Cache:")
+    print(cache)
     return msal.ConfidentialClientApplication(
         config['client_id'],
         authority="https://login.microsoftonline.com/" + config['tenant_id'],
