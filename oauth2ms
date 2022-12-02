@@ -67,6 +67,11 @@ def load_config():
 def build_msal_app(config, cache = None):
     print("Cache:")
     print(cache)
+    print("msal confidentialclientapplication")
+    print(msal.ConfidentialClientApplication(
+        config['client_id'],
+        authority="https://login.microsoftonline.com/" + config['tenant_id'],
+        client_credential=config['client_secret'], token_cache=cache))
     return msal.ConfidentialClientApplication(
         config['client_id'],
         authority="https://login.microsoftonline.com/" + config['tenant_id'],
@@ -180,14 +185,10 @@ def fetch_token_from_cache(app):
     accounts = cca.get_accounts()
     print("Accounts:")
     print(accounts)
-    print(cca.get_accounts)
     if cca.get_accounts:
-        print("Scopes:")
-        print(config['scopes'])
-        print("Account[0]:")
-        print(accounts[0])
         result = cca.acquire_token_silent(config['scopes'], account=accounts[0])
-        print(result)
+        print("result:")
+        print(result["access_token"])
         return result["access_token"]
     else:
         None
@@ -229,6 +230,8 @@ def encode_xoauth2(app, token):
     config = app['config']
     cache = app['cache']
     cca = build_msal_app(config, cache)
+    print("cca:")
+    print(cca)
     accounts = cca.get_accounts()
     username = accounts[0]["username"]
     C_A = b'\x01'
