@@ -65,6 +65,7 @@ def load_config():
     return json.load(open(config_file, 'r'))
 
 def build_msal_app(config, cache = None):
+    print("HERHEHREHREHEHRHE")
     print("Cache:")
     print(cache)
     print("msal confidentialclientapplication")
@@ -184,11 +185,12 @@ def fetch_token_from_cache(app):
     cca = build_msal_app(config, cache)
     accounts = cca.get_accounts()
     print("Accounts:")
-    print(accounts)
+    print(accounts[0])
+    print(config['scopes'])
     if cca.get_accounts:
         result = cca.acquire_token_silent(config['scopes'], account=accounts[0])
         print("result:")
-        print(result["access_token"])
+        print(result)
         return result["access_token"]
     else:
         None
