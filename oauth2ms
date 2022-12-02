@@ -176,9 +176,14 @@ def fetch_token_from_cache(app):
     cache = app['cache']
     cca = build_msal_app(config, cache)
     accounts = cca.get_accounts()
+    print("Accounts:")
     print(accounts)
     print(cca.get_accounts)
     if cca.get_accounts:
+        print("Scopes:")
+        print(config['scopes'])
+        print("Account[0]:")
+        print(accounts[0])
         result = cca.acquire_token_silent(config['scopes'], account=accounts[0])
         print(result)
         return result["access_token"]
